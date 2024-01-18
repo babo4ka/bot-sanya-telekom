@@ -31,7 +31,7 @@ public class StartPage implements Page {
 
         messages.add(creator.createTextMessage(
                 constructor.addButton("ПОКАЖИ ТАРИФЫ", "/tariffs1").nextRow()
-                        .addWebAppButton("yandex", "https://dzen.ru/?yredirect=true").nextRow()
+                        .addWebAppButton("ТАРИФЫ В ПРИЛОЖЕНИИ", "https://genuine-haupia-09d816.netlify.app/").nextRow()
                         .build(),
                 update.hasMessage()?update.getMessage().getChatId():update.getCallbackQuery().getMessage().getChatId(),
                 info,

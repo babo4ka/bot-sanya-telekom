@@ -45,7 +45,7 @@ public class BotSanya extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
 
         if(update.hasMessage() && update.getMessage().getText().equals("/start")){
-            List<Message> executedPages = null;
+            List<Message> executedPages;
             try {
                 executedPages = pageManager.execute(update, "/start");
             } catch (IOException e) {
@@ -74,7 +74,7 @@ public class BotSanya extends TelegramLongPollingBot {
         }
 
         if(update.hasCallbackQuery()){
-            List<Message> executedPages = null;
+            List<Message> executedPages;
             try {
                 executedPages = pageManager.execute(update, update.getCallbackQuery().getData());
             } catch (IOException e) {
