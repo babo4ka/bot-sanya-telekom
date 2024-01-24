@@ -31,7 +31,7 @@ public class TariffsPage implements Page {
 
         KeyboardConstructor constructor = new KeyboardConstructor();
 
-
+        System.out.println("dsadasdas");
         tariffs.forEach(tariff -> {
             constructor.addButton(tariff.getName(), ("/consult " + (int)Double.parseDouble(tariff.getNumber()))).nextRow();
             textBuilder.append(tariff);

@@ -6,10 +6,15 @@ import greatBot.service.pagesManaging.pagesUtils.Message;
 import greatBot.service.pagesManaging.pagesUtils.PageManager;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
+import org.telegram.telegrambots.meta.api.methods.webapp.AnswerWebAppQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResult;
+import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultArticle;
+import org.telegram.telegrambots.meta.api.objects.webapp.WebAppInfo;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
@@ -44,33 +49,37 @@ public class BotSanya extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
 
-        if(update.hasMessage() && update.getMessage().getText().equals("/start")){
-            List<Message> executedPages;
-            try {
-                executedPages = pageManager.execute(update, "/start");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
 
-            executedPages.forEach(page -> {
-                if(page.getSend().getClass().equals(SendMessage.class)){
-                    try {
-                        org.telegram.telegrambots.meta.api.objects.Message
-                            sentMessage = execute((SendMessage) page.getSend());
-                        if(page.isMarkable())
-                            addToDump(update.getMessage().getChatId(),
-                                    sentMessage.getMessageId());
-                    } catch (TelegramApiException e) {
-                        throw new RuntimeException(e);
-                    }
-                }else if(page.getSend().getClass().equals(SendPhoto.class)){
-                    try {
-                        execute((SendPhoto) page.getSend());
-                    } catch (TelegramApiException e) {
-                        throw new RuntimeException(e);
-                    }
+
+        if(update.hasMessage()){
+            if(update.getMessage().getText().equals("/start")){
+                List<Message> executedPages;
+                try {
+                    executedPages = pageManager.execute(update, "/start");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-            });
+
+                executedPages.forEach(page -> {
+                    if(page.getSend().getClass().equals(SendMessage.class)){
+                        try {
+                            org.telegram.telegrambots.meta.api.objects.Message
+                                    sentMessage = execute((SendMessage) page.getSend());
+                            if(page.isMarkable())
+                                addToDump(update.getMessage().getChatId(),
+                                        sentMessage.getMessageId());
+                        } catch (TelegramApiException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }else if(page.getSend().getClass().equals(SendPhoto.class)){
+                        try {
+                            execute((SendPhoto) page.getSend());
+                        } catch (TelegramApiException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+            }
         }
 
         if(update.hasCallbackQuery()){

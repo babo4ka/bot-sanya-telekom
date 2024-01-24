@@ -1,5 +1,7 @@
 package greatBot.service.pagesManaging.pagesUtils;
 
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.webapp.WebAppInfo;
 
@@ -46,8 +48,10 @@ public class KeyboardConstructor {
         return this;
     }
 
-    public List<List<InlineKeyboardButton>> build(){
-        return this.buttonsMatrix;
+    public InlineKeyboardMarkup build(){
+        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
+        keyboardMarkup.setKeyboard(this.buttonsMatrix);
+        return keyboardMarkup;
     }
 
 

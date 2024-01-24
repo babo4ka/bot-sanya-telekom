@@ -19,6 +19,7 @@ public class PageManager {
     }};
 
     public List<Message> execute(Update update, String pageName) throws IOException {
+        System.out.println(pageName);
         return pages.get(pageName).execute(update);
     }
 }
