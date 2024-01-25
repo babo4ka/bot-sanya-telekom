@@ -1,14 +1,13 @@
 package greatBot.service.pagesManaging.pages.startPage;
 
 import greatBot.service.pagesManaging.interfaces.Page;
-import greatBot.service.pagesManaging.pagesUtils.KeyboardConstructor;
+import greatBot.service.pagesManaging.pagesUtils.InlineKeyboardConstructor;
 import greatBot.service.pagesManaging.pagesUtils.Message;
 import greatBot.service.pagesManaging.pagesUtils.MessageCreator;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class StartPage implements Page {
 
@@ -27,11 +26,10 @@ public class StartPage implements Page {
     public List<Message> execute(Update update) {
         List<Message> messages = new ArrayList<>();
 
-        KeyboardConstructor constructor = new KeyboardConstructor();
+        InlineKeyboardConstructor constructor = new InlineKeyboardConstructor();
 
         messages.add(creator.createTextMessage(
-                constructor.addButton("ПОКАЖИ ТАРИФЫ", "/tariffs1").nextRow()
-                        .addWebAppButton("ТАРИФЫ В ПРИЛОЖЕНИИ", "https://genuine-haupia-09d816.netlify.app/").nextRow()
+                constructor.addButton("зонакомиться с тарифами", "/tariffsMenu").nextRow()
                         .build(),
                 update.hasMessage()?update.getMessage().getChatId():update.getCallbackQuery().getMessage().getChatId(),
                 info,

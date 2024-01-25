@@ -1,7 +1,7 @@
 package greatBot.service.pagesManaging.pages.tariffsPage;
 
 import greatBot.service.pagesManaging.interfaces.Page;
-import greatBot.service.pagesManaging.pagesUtils.KeyboardConstructor;
+import greatBot.service.pagesManaging.pagesUtils.InlineKeyboardConstructor;
 import greatBot.service.pagesManaging.pagesUtils.Message;
 import greatBot.service.pagesManaging.pagesUtils.MessageCreator;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -29,9 +29,8 @@ public class TariffsPage implements Page {
         List<Message> messages = new ArrayList<>();
         StringBuilder textBuilder = new StringBuilder();
 
-        KeyboardConstructor constructor = new KeyboardConstructor();
+        InlineKeyboardConstructor constructor = new InlineKeyboardConstructor();
 
-        System.out.println("dsadasdas");
         tariffs.forEach(tariff -> {
             constructor.addButton(tariff.getName(), ("/consult " + (int)Double.parseDouble(tariff.getNumber()))).nextRow();
             textBuilder.append(tariff);
