@@ -29,7 +29,7 @@ public class StartPage implements Page {
         InlineKeyboardConstructor constructor = new InlineKeyboardConstructor();
 
         messages.add(creator.createTextMessage(
-                constructor.addButton("зонакомиться с тарифами", "/tariffsMenu").nextRow()
+                constructor.addButton("ознакомиться с тарифами", "/tariffsMenu").nextRow()
                         .build(),
                 update.hasMessage()?update.getMessage().getChatId():update.getCallbackQuery().getMessage().getChatId(),
                 info,

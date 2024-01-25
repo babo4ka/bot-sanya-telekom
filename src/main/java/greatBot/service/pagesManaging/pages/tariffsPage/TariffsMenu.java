@@ -35,7 +35,7 @@ public class TariffsMenu implements Page {
 
 
         for(int group = 0; group<groups.length; group++){
-            inlineKeyboardConstructor.addButton(groups[group], ("/tariffs" + group)).nextRow();
+            inlineKeyboardConstructor.addButton(groups[group], ("/tariffs" + (group + 1))).nextRow();
         }
 
         inlineKeyboardConstructor.addButton("вернуться в начало", "/start").nextRow();

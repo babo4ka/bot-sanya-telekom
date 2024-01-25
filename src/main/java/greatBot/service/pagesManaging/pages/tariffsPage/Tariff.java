@@ -20,11 +20,11 @@ public class Tariff {
         StringBuilder builder = new StringBuilder();
 
         builder.append(name).append("\n")
-                .append("Интернет: ").append(internet).append("\n")
-                .append(tv!=null?("ТВ: " + tv + "\n"):"")
+                .append("Интернет: ").append("до ").append(internet).append(" Мбит/сек.").append("\n")
+                .append(tv!=null?("ТВ: " + tv + " каналов \n"):"")
                 .append(wink!=null?"WINK: " + wink + "\n":"")
                 .append(mobile!=null?"Мобильная связь: " + mobile + "\n":"")
-                .append("Аренда оборудования: ").append(rent).append("\n")
+                .append(rent).append("\n")
                 .append("Цена: ").append(price).append("\n");
 
         return builder.toString();

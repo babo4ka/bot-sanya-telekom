@@ -14,6 +14,11 @@ public class TariffsPage implements Page {
 
     public static final int FIRST = 1;
     public static final int SECOND = 2;
+    public static final int THIRD = 3;
+    public static final int FOURTH = 4;
+
+    private final String warning = "После нажатия на кнопку \"Получить консультацию\", " +
+            "Александр получит уведомление о том, что с Вами необходимо связаться и получит ссылку, чтобы написать Вам";
 
     private final int pageNum;
     public TariffsPage(int pageNum){
@@ -25,38 +30,59 @@ public class TariffsPage implements Page {
     private MessageCreator creator = new MessageCreator();
     @Override
     public List<Message> execute(Update update) throws IOException {
+        long chatId = update.getCallbackQuery().getMessage().getChatId();
+
         List<Tariff> tariffs = reader.readTariffs(pageNum);
         List<Message> messages = new ArrayList<>();
-        StringBuilder textBuilder = new StringBuilder();
+
 
         InlineKeyboardConstructor constructor = new InlineKeyboardConstructor();
 
         tariffs.forEach(tariff -> {
-            constructor.addButton(tariff.getName(), ("/consult " + (int)Double.parseDouble(tariff.getNumber()))).nextRow();
-            textBuilder.append(tariff);
+            constructor.addButton("Получить консультацию",
+                    ("/consult " + (int)Double.parseDouble(tariff.getNumber()))).nextRow();
+
+            String tariffText = tariff + "\n\n" + warning;
+
+            messages.add(creator.createTextMessage(
+                    constructor.build(),
+                    chatId,
+                    tariffText,
+                    true
+            ));
+
+            constructor.reset();
         });
 
         switch (pageNum){
-            case FIRST -> {
-                constructor
-                        .addButton("в начало", "/start")
-                        .addButton("--->", "/tariffs2")
-                        .nextRow();
-            }
+            case FIRST -> constructor
+                    .addButton("в меню", "/tariffsMenu")
+                    .addButton("--->", "/tariffs2")
+                    .nextRow();
 
-            case SECOND -> {
-                constructor
-                        .addButton("<---", "/tariffs1")
-                        .addButton("в начало", "/start")
-                        .nextRow();
-            }
+            case SECOND -> constructor
+                    .addButton("<---", "/tariffs1")
+                    .addButton("в меню", "/tariffsMenu")
+                    .addButton("--->", "/tariffs3")
+                    .nextRow();
+
+            case THIRD -> constructor
+                    .addButton("<---", "/tariffs2")
+                    .addButton("в меню", "/tariffsMenu")
+                    .addButton("--->", "/tariffs4")
+                    .nextRow();
+
+            case FOURTH -> constructor
+                    .addButton("<---", "/tariffs3")
+                    .addButton("в меню", "/tariffsMenu")
+                    .nextRow();
         }
 
 
         messages.add(creator.createTextMessage(
                 constructor.build(),
-                update.getCallbackQuery().getMessage().getChatId(),
-                textBuilder.toString(),
+                chatId,
+                "Навигация по группам тарифов",
                 true
         ));
 
