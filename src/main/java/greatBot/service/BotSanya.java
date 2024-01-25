@@ -1,6 +1,7 @@
 package greatBot.service;
 
 import greatBot.config.BotConfig;
+import greatBot.service.botUtils.ConfigDataDistributor;
 import greatBot.service.botUtils.MessagesDump;
 import greatBot.service.pagesManaging.pagesUtils.Message;
 import greatBot.service.pagesManaging.pagesUtils.PageManager;
@@ -19,6 +20,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -27,8 +29,12 @@ public class BotSanya extends TelegramLongPollingBot {
 
     final BotConfig config;
 
-    public BotSanya(BotConfig config){
+    private ConfigDataDistributor distributor = ConfigDataDistributor.getInstance();
+
+    public BotSanya(BotConfig config) throws IOException {
         this.config = config;
+
+        distributor.setConfig(config);
     }
 
 
@@ -48,8 +54,6 @@ public class BotSanya extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-
-
 
         if(update.hasMessage()){
             if(update.getMessage().getText().equals("/start")){
@@ -85,7 +89,13 @@ public class BotSanya extends TelegramLongPollingBot {
         if(update.hasCallbackQuery()){
             List<Message> executedPages;
             try {
-                executedPages = pageManager.execute(update, update.getCallbackQuery().getData());
+                String[] gotData = update.getCallbackQuery().getData().split(" ");
+                if(gotData.length == 1){
+                    executedPages = pageManager.execute(update, gotData[0]);
+                }else{
+                    executedPages = pageManager.executeWithArgs(update, gotData[0], Arrays.copyOfRange(gotData, 1, gotData.length));
+                }
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

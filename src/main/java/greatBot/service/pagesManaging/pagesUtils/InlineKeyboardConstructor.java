@@ -24,6 +24,18 @@ public class InlineKeyboardConstructor {
         return this;
     }
 
+    public InlineKeyboardConstructor addURLButton(
+            String text,
+            String url
+    ){
+        this.buttonsRow.add(InlineKeyboardButton.builder()
+                .text(text)
+                .url(url).build()
+        );
+
+        return this;
+    }
+
     public InlineKeyboardConstructor addWebAppButton(
             String text,
             String url
@@ -52,6 +64,5 @@ public class InlineKeyboardConstructor {
         keyboardMarkup.setKeyboard(this.buttonsMatrix);
         return keyboardMarkup;
     }
-
 
 }

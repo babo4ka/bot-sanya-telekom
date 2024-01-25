@@ -41,6 +41,7 @@ public class ReplyKeyboardConstructor {
 
     public ReplyKeyboardMarkup build(){
         ReplyKeyboardMarkup keyboard = new ReplyKeyboardMarkup();
+        keyboard.setResizeKeyboard(true);
         keyboard.setKeyboard(this.keyboard);
         return keyboard;
     }

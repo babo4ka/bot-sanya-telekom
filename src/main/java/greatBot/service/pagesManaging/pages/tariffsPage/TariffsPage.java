@@ -20,23 +20,23 @@ public class TariffsPage implements Page {
     private final String warning = "После нажатия на кнопку \"Получить консультацию\", " +
             "Александр получит уведомление о том, что с Вами необходимо связаться и получит ссылку, чтобы написать Вам";
 
-    private final int pageNum;
-    public TariffsPage(int pageNum){
-        this.pageNum = pageNum;
+    private final int groupNum;
+    public TariffsPage(int pageNum) throws IOException {
+        this.groupNum = pageNum;
     }
 
-    private TariffsReader reader = new TariffsReader();
+    private TariffsReader reader = TariffsReader.getInstance();
 
     private MessageCreator creator = new MessageCreator();
+    private InlineKeyboardConstructor constructor = new InlineKeyboardConstructor();
     @Override
     public List<Message> execute(Update update) throws IOException {
         long chatId = update.getCallbackQuery().getMessage().getChatId();
 
-        List<Tariff> tariffs = reader.readTariffs(pageNum);
+        List<Tariff> tariffs = reader.getTariffsByGroup(groupNum);
         List<Message> messages = new ArrayList<>();
 
-
-        InlineKeyboardConstructor constructor = new InlineKeyboardConstructor();
+        constructor.reset();
 
         tariffs.forEach(tariff -> {
             constructor.addButton("Получить консультацию",
@@ -54,7 +54,7 @@ public class TariffsPage implements Page {
             constructor.reset();
         });
 
-        switch (pageNum){
+        switch (groupNum){
             case FIRST -> constructor
                     .addButton("в меню", "/tariffsMenu")
                     .addButton("--->", "/tariffs2")

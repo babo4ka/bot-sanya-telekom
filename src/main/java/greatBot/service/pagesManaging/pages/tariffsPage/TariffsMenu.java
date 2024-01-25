@@ -27,11 +27,16 @@ public class TariffsMenu implements Page {
 
     private MessageCreator creator = new MessageCreator();
 
+    private InlineKeyboardConstructor inlineKeyboardConstructor = new InlineKeyboardConstructor();
+
+    private ReplyKeyboardConstructor replyKeyboardConstructor = new ReplyKeyboardConstructor();
+
     @Override
     public List<Message> execute(Update update) throws IOException {
         List<Message> messages = new ArrayList<>();
 
-        InlineKeyboardConstructor inlineKeyboardConstructor = new InlineKeyboardConstructor();
+        inlineKeyboardConstructor.reset();
+        replyKeyboardConstructor.reset();
 
 
         for(int group = 0; group<groups.length; group++){
@@ -47,7 +52,7 @@ public class TariffsMenu implements Page {
         ));
 
 
-        ReplyKeyboardConstructor replyKeyboardConstructor = new ReplyKeyboardConstructor();
+
 
         replyKeyboardConstructor.
                 addWebAppButton("ПОСМОТРЕТЬ ТАРИФЫ", "https://genuine-haupia-09d816.netlify.app").nextRow();

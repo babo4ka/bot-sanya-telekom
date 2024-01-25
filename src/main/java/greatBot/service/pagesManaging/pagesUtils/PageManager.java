@@ -1,6 +1,7 @@
 package greatBot.service.pagesManaging.pagesUtils;
 
 import greatBot.service.pagesManaging.interfaces.Page;
+import greatBot.service.pagesManaging.pages.consultpage.ConsultPage;
 import greatBot.service.pagesManaging.pages.startPage.StartPage;
 import greatBot.service.pagesManaging.pages.tariffsPage.TariffsMenu;
 import greatBot.service.pagesManaging.pages.tariffsPage.TariffsPage;
@@ -20,10 +21,17 @@ public class PageManager {
         put("/tariffs3", new TariffsPage(TariffsPage.THIRD));
         put("/tariffs4", new TariffsPage(TariffsPage.FOURTH));
         put("/tariffsMenu", new TariffsMenu());
+        put("/consult", new ConsultPage());
     }};
+
+    public PageManager() throws IOException{}
 
     public List<Message> execute(Update update, String pageName) throws IOException {
         System.out.println(pageName);
         return pages.get(pageName).execute(update);
+    }
+
+    public List<Message> executeWithArgs(Update update, String pageName, String[] args) throws IOException {
+        return pages.get(pageName).executeWithArgs(update, args);
     }
 }

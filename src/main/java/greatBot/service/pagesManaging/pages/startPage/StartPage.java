@@ -21,12 +21,13 @@ public class StartPage implements Page {
             "&#8252;Убедитесь, что у Вас указано имя пользователя в телеграмм(username) или я не смогу сообщить Александру с кем надо связаться";
 
     private MessageCreator creator = new MessageCreator();
+    private InlineKeyboardConstructor constructor = new InlineKeyboardConstructor();
 
     @Override
     public List<Message> execute(Update update) {
         List<Message> messages = new ArrayList<>();
 
-        InlineKeyboardConstructor constructor = new InlineKeyboardConstructor();
+        constructor.reset();
 
         messages.add(creator.createTextMessage(
                 constructor.addButton("ознакомиться с тарифами", "/tariffsMenu").nextRow()
