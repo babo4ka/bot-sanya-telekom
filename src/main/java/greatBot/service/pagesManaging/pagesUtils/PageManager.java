@@ -27,11 +27,12 @@ public class PageManager {
     public PageManager() throws IOException{}
 
     public List<Message> execute(Update update, String pageName) throws IOException {
-        System.out.println(pageName);
+        System.out.println("execute " + pageName);
         return pages.get(pageName).execute(update);
     }
 
     public List<Message> executeWithArgs(Update update, String pageName, String[] args) throws IOException {
+        System.out.println("execute w/args" + pageName);
         return pages.get(pageName).executeWithArgs(update, args);
     }
 }

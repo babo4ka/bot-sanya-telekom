@@ -5,6 +5,7 @@ import greatBot.service.botUtils.ConfigDataDistributor;
 import greatBot.service.botUtils.MessagesDump;
 import greatBot.service.pagesManaging.pagesUtils.Message;
 import greatBot.service.pagesManaging.pagesUtils.PageManager;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
@@ -52,86 +53,72 @@ public class BotSanya extends TelegramLongPollingBot {
 
     private final MessagesDump dump = new MessagesDump();
 
+
     @Override
     public void onUpdateReceived(Update update) {
+        try {
+            processMessage(update, update.hasMessage()?
+                    MessageType.MESSAGE:MessageType.CALLBACK);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-        if(update.hasMessage()){
-            if(update.getMessage().getText().equals("/start")){
-                List<Message> executedPages;
-                try {
-                    executedPages = pageManager.execute(update, "/start");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+    private enum MessageType{
+        MESSAGE,
+        CALLBACK
+    }
 
-                executedPages.forEach(page -> {
-                    if(page.getSend().getClass().equals(SendMessage.class)){
-                        try {
-                            org.telegram.telegrambots.meta.api.objects.Message
-                                    sentMessage = execute((SendMessage) page.getSend());
-                            if(page.isMarkable())
-                                addToDump(update.getMessage().getChatId(),
-                                        sentMessage.getMessageId());
-                        } catch (TelegramApiException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }else if(page.getSend().getClass().equals(SendPhoto.class)){
-                        try {
-                            execute((SendPhoto) page.getSend());
-                        } catch (TelegramApiException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                });
-            }
+    private void processMessage(Update update, MessageType type) throws IOException {
+        String[] gotData = null;
+        List<Message> executedPages;
+
+        long chatId = update.hasMessage()?update.getMessage().getChatId()
+                :update.getCallbackQuery().getMessage().getChatId();
+
+        switch (type){
+            case MESSAGE -> gotData = update.getMessage().getWebAppData()==null?
+                    update.getMessage().getText().split(" "):
+                    update.getMessage().getWebAppData().getData().split(" ");
+
+            case CALLBACK -> gotData = update.getCallbackQuery().getData().split(" ");
         }
 
-        if(update.hasCallbackQuery()){
-            List<Message> executedPages;
-            try {
-                String[] gotData = update.getCallbackQuery().getData().split(" ");
-                if(gotData.length == 1){
-                    executedPages = pageManager.execute(update, gotData[0]);
-                }else{
-                    executedPages = pageManager.executeWithArgs(update, gotData[0], Arrays.copyOfRange(gotData, 1, gotData.length));
-                }
+        if(gotData.length == 1){
+            executedPages = pageManager.execute(update, gotData[0]);
+        }else{
+            executedPages = pageManager.executeWithArgs(update, gotData[0],
+                    Arrays.copyOfRange(gotData, 1, gotData.length));
+        }
 
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
 
-            try {
-                deletePrevious(update.getCallbackQuery().getMessage().getChatId(),
-                        dump.getMessagesToDelete(update.getCallbackQuery().getMessage().getChatId()));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-
+        try{
+            deletePrevious(chatId, dump.getMessagesToDelete(chatId));
+        }catch (Exception e){
+            System.err.println(e);
+        }finally {
             executedPages.forEach(page -> {
+                org.telegram.telegrambots.meta.api.objects.Message sentMessage = null;
+
                 if(page.getSend().getClass().equals(SendMessage.class)){
                     try {
-                        org.telegram.telegrambots.meta.api.objects.Message
-                                sentMessage = execute((SendMessage) page.getSend());
-                        if(page.isMarkable())
-                            addToDump(update.getCallbackQuery().getMessage().getChatId(),
-                                    sentMessage.getMessageId());
-
+                        sentMessage = execute((SendMessage) page.getSend());
                     } catch (TelegramApiException e) {
                         throw new RuntimeException(e);
                     }
                 }else if(page.getSend().getClass().equals(SendPhoto.class)){
                     try {
-                        org.telegram.telegrambots.meta.api.objects.Message
-                                sentMessage = execute((SendPhoto) page.getSend());
-                        if(page.isMarkable())
-                            addToDump(update.getCallbackQuery().getMessage().getChatId(),
-                                    sentMessage.getMessageId());
+                        sentMessage = execute((SendPhoto) page.getSend());
                     } catch (TelegramApiException e) {
                         throw new RuntimeException(e);
                     }
                 }
-            });
 
+                if(page.isMarkable()) {
+                    assert sentMessage != null;
+                    addToDump(chatId, sentMessage.getMessageId());
+                }
+            });
         }
     }
 
