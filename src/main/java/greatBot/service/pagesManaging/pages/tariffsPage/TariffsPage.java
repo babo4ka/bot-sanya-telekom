@@ -40,7 +40,7 @@ public class TariffsPage implements Page {
 
         tariffs.forEach(tariff -> {
             constructor.addButton("Получить консультацию",
-                    ("/consult " + (int)Double.parseDouble(tariff.getNumber()))).nextRow();
+                    ("/consult " + (int)Double.parseDouble(tariff.getNumber()) + " bot")).nextRow();
 
             String tariffText = tariff + "\n\n" + warning;
 

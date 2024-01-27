@@ -25,9 +25,9 @@ public class ConsultPage implements Page {
 
     private final String info = "Я передам александру, чтобы он с Вами связался!";
 
-    private MessageCreator creator = new MessageCreator();
+    private final MessageCreator creator = new MessageCreator();
 
-    private InlineKeyboardConstructor constructor = new InlineKeyboardConstructor();
+    private final InlineKeyboardConstructor constructor = new InlineKeyboardConstructor();
 
     public ConsultPage() throws IOException {
     }
@@ -52,21 +52,22 @@ public class ConsultPage implements Page {
                 update.getCallbackQuery().getMessage().getChat().getUserName(),
 
                 update.hasMessage()?update.getMessage().getChat().getFirstName():
-                        update.getCallbackQuery().getMessage().getChat().getFirstName())
+                        update.getCallbackQuery().getMessage().getChat().getFirstName(), args[1])
         );
 
         return messages;
     }
 
-    private ConfigDataDistributor distributor = ConfigDataDistributor.getInstance();
+    private final ConfigDataDistributor distributor = ConfigDataDistributor.getInstance();
     private final String[] commonTexts = {"Консультация по тарифу \n", "Для пользователя \n"};
-    private TariffsReader reader = TariffsReader.getInstance();
-    private Message<SendMessage> messageForSanya(int tariffNum, String userName, String firstName){
+    private final TariffsReader reader = TariffsReader.getInstance();
+    private Message<SendMessage> messageForSanya(int tariffNum, String userName, String firstName, String src){
         Tariff tariff = reader.getTariffByNumber(tariffNum);
 
         constructor.reset();
 
-        String text = commonTexts[0] + tariff.getName() + "\n" +commonTexts[1] + firstName;
+        String text = commonTexts[0] + tariff.getName() + "\n" +commonTexts[1] + firstName + "\n" +
+                "Прислано из " + (src.equals("bot")?"бота":"приложения");
 
         return creator.createTextMessage(
                 constructor.addURLButton("Открыть чат с пользователем", "https://t.me/" + userName).nextRow().build(),

@@ -17,11 +17,14 @@ public class TariffsMenu implements Page {
             "GPON для: Залесный, Аракчино, Лагерная, Адмиралтейская слобода, Красная горка, Юдино",
             "GPON для ЖК \"Беседа\""};
 
-    private final String mainText = "Выберите группу тарифов, чтобы ознакомиться: \n" +
-            groups[0] + "\n" +
-            groups[1] + "\n" +
-            groups[2] + "\n" +
-            groups[3] + "\n";
+    private final String mainText = "Выберите группу тарифов, чтобы ознакомиться: \n\n" +
+            "1 - " + groups[0] + "\n\n" +
+            "2 - " +groups[1] + "\n\n" +
+            "3 - " +groups[2] + "\n\n" +
+            "4 - " +groups[3];
+
+    private final String GPON_info = "GPON - Gigabit Passive Optical Network - " +
+            "«Гигабитная пассивная оптическая сеть»";
 
     private final String secondaryText = "Или вы можете посмотреть тарифы в мини-приложении, нажав на кнопку снизу";
 
