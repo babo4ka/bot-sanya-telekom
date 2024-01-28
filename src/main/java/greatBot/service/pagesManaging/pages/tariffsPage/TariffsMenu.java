@@ -17,22 +17,30 @@ public class TariffsMenu implements Page {
             "GPON для: Залесный, Аракчино, Лагерная, Адмиралтейская слобода, Красная горка, Юдино",
             "GPON для ЖК \"Беседа\""};
 
-    private final String mainText = "Выберите группу тарифов, чтобы ознакомиться: \n\n" +
-            "1 - " + groups[0] + "\n\n" +
-            "2 - " +groups[1] + "\n\n" +
-            "3 - " +groups[2] + "\n\n" +
-            "4 - " +groups[3];
+    private final String [] groupEmojis = {"&#49;&#65039;&#8419;", "&#50;&#65039;&#8419;",
+            "&#51;&#65039;&#8419;", "&#52;&#65039;&#8419;"};
+
+    private final String warning = "&#8252;После нажатия на кнопку \"консультация по всем тарифам\", " +
+            "Александр получит уведомление о том, что с Вами необходимо связаться и получит ссылку, чтобы написать Вам\n" +
+            "&#8252;Убедитесь, что у Вас указано имя пользователя в телеграмм(username) или я не смогу сообщить Александру с кем надо связаться";
+
+    private final String mainText = "&#10067;Выберите группу тарифов, чтобы ознакомиться: \n\n" +
+            groupEmojis [0] + groups[0] + "\n\n" +
+            groupEmojis [1] + groups[1] + "\n\n" +
+            groupEmojis [2] + groups[2] + "\n\n" +
+            groupEmojis [3] + groups[3] + "\n\n" +
+            warning;
 
     private final String GPON_info = "GPON - Gigabit Passive Optical Network - " +
             "«Гигабитная пассивная оптическая сеть»";
 
-    private final String secondaryText = "Или вы можете посмотреть тарифы в мини-приложении, нажав на кнопку снизу";
+    private final String secondaryText = "Или вы можете посмотреть тарифы в мини-приложении, нажав на кнопку снизу&#9196;";
 
     private MessageCreator creator = new MessageCreator();
 
-    private InlineKeyboardConstructor inlineKeyboardConstructor = new InlineKeyboardConstructor();
+    private final InlineKeyboardConstructor inlineKeyboardConstructor = new InlineKeyboardConstructor();
 
-    private ReplyKeyboardConstructor replyKeyboardConstructor = new ReplyKeyboardConstructor();
+    private final ReplyKeyboardConstructor replyKeyboardConstructor = new ReplyKeyboardConstructor();
 
     @Override
     public List<Message> execute(Update update) throws IOException {
@@ -45,6 +53,8 @@ public class TariffsMenu implements Page {
         for(int group = 0; group<groups.length; group++){
             inlineKeyboardConstructor.addButton(groups[group], ("/tariffs" + (group + 1))).nextRow();
         }
+
+        inlineKeyboardConstructor.addButton("консультация по всем тарифам", "/consult all bot").nextRow();
 
         inlineKeyboardConstructor.addButton("вернуться в начало", "/start").nextRow();
 

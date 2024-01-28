@@ -19,14 +19,28 @@ public class Tariff {
     public String toString(){
         StringBuilder builder = new StringBuilder();
 
-        builder.append(name).append("\n")
-                .append("Интернет: ").append("до ").append(internet).append(" Мбит/сек.").append("\n")
-                .append(tv!=null?("ТВ: " + tv + " каналов \n"):"")
-                .append(wink!=null?"WINK: " + wink + "\n":"")
-                .append(mobile!=null?"Мобильная связь: " + mobile + "\n":"")
-                .append(rent).append("\n")
-                .append("Цена: ").append(price).append("\n");
+        builder.append("<strong>&#128204;").append(name).append("</strong>").append("\n\n")
+                .append("&#127760;").append("до ").append((int) Double.parseDouble(internet)).append(" Мбит/сек.").append("\n")
+                .append(tv != null ? ("&#128250;" + countChannels(tv) + "\n") : "")
+                .append(wink != null ? "WINK: " + wink + "\n" : "")
+                .append(mobile != null ? "&#128222;" + mobile + "\n" : "")
+                .append("&#9203;").append(rent).append("\n")
+                .append("&#128176;").append(price).append("\n");
 
         return builder.toString();
+    }
+
+    private String countChannels(String channels){
+        int channelsInt = (int) Double.parseDouble(channels);
+
+        int end = channelsInt % 10;
+
+        if(end == 1){
+            return channelsInt + " канал";
+        }else if(end>1 && end<5){
+            return channelsInt + " канала";
+        }else{
+            return channelsInt + " каналов";
+        }
     }
 }

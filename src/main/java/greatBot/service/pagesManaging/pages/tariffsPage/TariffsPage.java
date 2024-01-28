@@ -17,8 +17,9 @@ public class TariffsPage implements Page {
     public static final int THIRD = 3;
     public static final int FOURTH = 4;
 
-    private final String warning = "После нажатия на кнопку \"Получить консультацию\", " +
-            "Александр получит уведомление о том, что с Вами необходимо связаться и получит ссылку, чтобы написать Вам";
+    private final String warning = "&#8252;После нажатия на кнопку \"Получить консультацию\", " +
+            "Александр получит уведомление о том, что с Вами необходимо связаться и получит ссылку, чтобы написать Вам\n" +
+            "&#8252;Убедитесь, что у Вас указано имя пользователя в телеграмм(username) или я не смогу сообщить Александру с кем надо связаться";
 
     private final int groupNum;
     public TariffsPage(int pageNum) throws IOException {
