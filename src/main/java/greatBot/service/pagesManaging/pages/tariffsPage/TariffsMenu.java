@@ -13,9 +13,7 @@ import java.util.List;
 
 public class TariffsMenu implements Page {
 
-    private final String [] groups = {"Интернет и ТВ", "Интернет, ТВ и мобильная связь",
-            "GPON для: Залесный, Аракчино, Лагерная, Адмиралтейская слобода, Красная горка, Юдино",
-            "GPON для ЖК \"Беседа\""};
+    private final String [] groups = {"Интернет + ТВ + Мобильная связь", "Интернет", "Интернет + ТВ"};
 
     private final String [] groupEmojis = {"&#49;&#65039;&#8419;", "&#50;&#65039;&#8419;",
             "&#51;&#65039;&#8419;", "&#52;&#65039;&#8419;"};
@@ -28,11 +26,8 @@ public class TariffsMenu implements Page {
             groupEmojis [0] + groups[0] + "\n\n" +
             groupEmojis [1] + groups[1] + "\n\n" +
             groupEmojis [2] + groups[2] + "\n\n" +
-            groupEmojis [3] + groups[3] + "\n\n" +
             warning;
 
-    private final String GPON_info = "GPON - Gigabit Passive Optical Network - " +
-            "«Гигабитная пассивная оптическая сеть»";
 
     private final String secondaryText = "Или вы можете посмотреть тарифы в мини-приложении, нажав на кнопку снизу&#9196;";
 

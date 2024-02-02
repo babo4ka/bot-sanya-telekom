@@ -12,7 +12,9 @@ public class Tariff {
     private String tv;
     private String wink;
     private String mobile;
-    private String rent;
+    private String router;
+    private String pristavka;
+    private String discount;
     private String price;
     private String number;
 
@@ -20,12 +22,14 @@ public class Tariff {
         StringBuilder builder = new StringBuilder();
 
         builder.append("<strong>&#128204;").append(name).append("</strong>").append("\n\n")
-                .append("&#127760;").append("до ").append((int) Double.parseDouble(internet)).append(" Мбит/сек.").append("\n")
-                .append(tv != null ? ("&#128250;" + countChannels(tv) + "\n") : "")
-                .append(wink != null ? "WINK: " + wink + "\n" : "")
-                .append(mobile != null ? "&#128222;" + mobile + "\n" : "")
-                .append("&#9203;").append(rent).append("\n")
-                .append("&#128176;").append(price).append("\n");
+                .append("&#127760;").append("до ").append((int) Double.parseDouble(internet)).append(" Мбит/сек.").append("\n\n")
+                .append(tv != null ? ("&#128250;" + countChannels(tv) + "\n\n") : "")
+                .append(wink != null ? "WINK: " + wink + "\n\n" : "")
+                .append(mobile != null ? "&#128222;" + mobile.replace("\n", "\n&#128222;") + "\n\n" : "")
+                .append("&#9203; РОУТЕР\n").append("&#9203;").append(router.replace("\n", "\n&#9203;")).append("\n\n")
+                .append(pristavka != null ? "&#9203; ТВ приставка\n &#9203;" + pristavka.replace("\n", "\n&#9203;") + "\n\n":"")
+                .append(discount != null? "&#128176;" + discount + "\n":"")
+                .append("&#128176;").append((int) Double.parseDouble(price)).append("руб./мес.\n");
 
         return builder.toString();
     }

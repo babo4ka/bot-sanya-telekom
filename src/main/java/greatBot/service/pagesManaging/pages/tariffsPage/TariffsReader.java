@@ -15,7 +15,7 @@ import java.util.*;
 
 public class TariffsReader {
 
-    private final String filePath = "./src/main/resources/tariffs.xlsx";
+    private final String filePath = "./src/main/resources/tariffs2.1.xlsx";
 
     private TariffsReader() throws IOException {
         loadTariffs();
@@ -31,7 +31,6 @@ public class TariffsReader {
         return instance;
     }
 
-//    private List<Tariff> tariffs = new ArrayList<>();
 
     /*
     * маппинг групп тарифов (номер страницы -> маппинг тарифов по номерам)
@@ -53,8 +52,8 @@ public class TariffsReader {
 
         while(rowIterator.hasNext()){
             Row row = rowIterator.next();
-            int group = (int) row.getCell(7).getNumericCellValue();
-            int num = (int) row.getCell(8).getNumericCellValue();
+            int group = (int) row.getCell(10).getNumericCellValue();
+            int num = (int) row.getCell(9).getNumericCellValue();
 
             allTariffs.computeIfAbsent(group, k -> new HashMap<>());
             numsInGroup.computeIfAbsent(group, k -> new ArrayList<>());
@@ -73,10 +72,12 @@ public class TariffsReader {
                     args.get(1).equals("-")?null:args.get(1),
                     args.get(2).equals("-")?null:args.get(2),
                     args.get(3).equals("-")?null:args.get(3),
-                    args.get(4).equals("-")?null:args.get(4),
-                    args.get(5).equals("-")?null:args.get(5),
-                    args.get(6).equals("-")?null:args.get(6),
-                    args.get(8).equals("-")?null:args.get(8)
+                    args.get(4).equals("-")?null:args.get(4).replace("\\n", "\n"),
+                    args.get(5).equals("-")?null:args.get(5).replace("\\n", "\n"),
+                    args.get(6).equals("-")?null:args.get(6).replace("\\n", "\n"),
+                    args.get(7).equals("-")?null:args.get(7),
+                    args.get(8).equals("-")?null:args.get(8),
+                    args.get(9).equals("-")?null:args.get(9)
             ));
 
             numsInGroup.get(group).add(num);
@@ -97,46 +98,4 @@ public class TariffsReader {
         return null;
     }
 
-//    public List<Tariff> readTariffs(int page) throws IOException {
-//        List<Tariff> tariffs = new ArrayList<>();
-//
-//        FileInputStream inputStream = new FileInputStream(filePath);
-//
-//        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
-//        XSSFSheet sheet = workbook.getSheetAt(0);
-//
-//        Iterator<Row> rowIterator = sheet.iterator();
-//        rowIterator.next();
-//
-//        while(rowIterator.hasNext()){
-//            Row row = rowIterator.next();
-//
-//            if((int) row.getCell(7).getNumericCellValue() != page)continue;
-//
-//            List<String> args = new ArrayList<>();
-//
-//            Iterator<Cell> cellIterator = row.iterator();
-//
-//            while(cellIterator.hasNext()){
-//                Cell cell = cellIterator.next();
-//                switch (cell.getCellType()){
-//                    case STRING -> args.add(cell.getStringCellValue());
-//                    case NUMERIC -> args.add(String.valueOf(cell.getNumericCellValue()));
-//                }
-//            }
-//
-//            tariffs.add(new Tariff(
-//                    args.get(0).equals("-")?null:args.get(0),
-//                    args.get(1).equals("-")?null:args.get(1),
-//                    args.get(2).equals("-")?null:args.get(2),
-//                    args.get(3).equals("-")?null:args.get(3),
-//                    args.get(4).equals("-")?null:args.get(4),
-//                    args.get(5).equals("-")?null:args.get(5),
-//                    args.get(6).equals("-")?null:args.get(6),
-//                    args.get(8).equals("-")?null:args.get(8)
-//                    ));
-//        }
-//
-//        return tariffs;
-//    }
 }
