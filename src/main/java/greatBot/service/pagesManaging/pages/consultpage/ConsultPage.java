@@ -68,6 +68,8 @@ public class ConsultPage implements Page {
                 "<strong>" + firstName + "</strong>" + "\n" +
                 "Прислано из " + (src.equals("bot")?"бота":"приложения");
 
+        System.out.println(text);
+
         List<Message<SendMessage>> messages = new ArrayList<>();
 
         messages.add(creator.createTextMessage(

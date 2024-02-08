@@ -76,6 +76,8 @@ public class BotSanya extends TelegramLongPollingBot {
         long chatId = update.hasMessage()?update.getMessage().getChatId()
                 :update.getCallbackQuery().getMessage().getChatId();
 
+        System.out.println("From: " + chatId);
+
         switch (type){
             case MESSAGE -> gotData = update.getMessage().getWebAppData()==null?
                     update.getMessage().getText().split(" "):
