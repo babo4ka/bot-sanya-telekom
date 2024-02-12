@@ -15,7 +15,6 @@ public class TariffsPage implements Page {
     public static final int FIRST = 1;
     public static final int SECOND = 2;
     public static final int THIRD = 3;
-    public static final int FOURTH = 4;
 
     private final String warning = "&#8252;После нажатия на кнопку \"Получить консультацию\", " +
             "Александр получит уведомление о том, что с Вами необходимо связаться и получит ссылку, чтобы написать Вам\n" +
@@ -69,12 +68,6 @@ public class TariffsPage implements Page {
 
             case THIRD -> constructor
                     .addButton("<---", "/tariffs2")
-                    .addButton("в меню", "/tariffsMenu")
-                    .addButton("--->", "/tariffs4")
-                    .nextRow();
-
-            case FOURTH -> constructor
-                    .addButton("<---", "/tariffs3")
                     .addButton("в меню", "/tariffsMenu")
                     .nextRow();
         }

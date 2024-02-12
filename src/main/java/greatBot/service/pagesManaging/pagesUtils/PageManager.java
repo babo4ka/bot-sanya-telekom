@@ -19,7 +19,6 @@ public class PageManager {
         put("/tariffs1", new TariffsPage(TariffsPage.FIRST));
         put("/tariffs2", new TariffsPage(TariffsPage.SECOND));
         put("/tariffs3", new TariffsPage(TariffsPage.THIRD));
-        put("/tariffs4", new TariffsPage(TariffsPage.FOURTH));
         put("/tariffsMenu", new TariffsMenu());
         put("/consult", new ConsultPage());
     }};
