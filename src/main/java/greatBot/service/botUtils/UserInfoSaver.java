@@ -35,13 +35,36 @@ public class UserInfoSaver {
             rowNum++;
         }
 
-        XSSFRow row = sheet.createRow(rowNum);
+        Row row = sheet.createRow(rowNum);
         row.createCell(0).setCellValue(id);
         row.createCell(1).setCellValue(username==null?"-":username);
         row.createCell(2).setCellValue(0);
         row.createCell(3).setCellValue(0);
         row.createCell(4).setCellValue(0);
-
-
     }
+
+    public void updateInfo(long id, int group) throws Exception {
+        FileInputStream inputStream = new FileInputStream(filePath);
+
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+
+        XSSFSheet sheet = workbook.getSheet("пользователи");
+
+        Iterator<Row> rowIterator = sheet.iterator();
+        rowIterator.next();
+
+        Row row = null;
+        while(rowIterator.hasNext()){
+            row = rowIterator.next();
+
+            if(row.getCell(0).getNumericCellValue() == id)break;
+        }
+
+        if(row == null){
+            throw new Exception("ПОЛЬЗОВАТЕЛЬ НЕ НАЙДЕН!!!");
+        }
+
+        row.getCell(group).setCellValue(1);
+    }
+
 }
