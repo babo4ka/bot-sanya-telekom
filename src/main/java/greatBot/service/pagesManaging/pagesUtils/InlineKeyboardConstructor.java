@@ -30,7 +30,8 @@ public class InlineKeyboardConstructor {
     ){
         this.buttonsRow.add(InlineKeyboardButton.builder()
                 .text(text)
-                .url(url).build()
+                .webApp( WebAppInfo.builder().url(url).build())
+                .build()
         );
 
         return this;
