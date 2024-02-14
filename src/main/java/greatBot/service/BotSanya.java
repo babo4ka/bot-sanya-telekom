@@ -59,7 +59,7 @@ public class BotSanya extends TelegramLongPollingBot {
         try {
             processMessage(update, update.hasMessage()?
                     MessageType.MESSAGE:MessageType.CALLBACK);
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -69,7 +69,7 @@ public class BotSanya extends TelegramLongPollingBot {
         CALLBACK
     }
 
-    private void processMessage(Update update, MessageType type) throws IOException {
+    private void processMessage(Update update, MessageType type) throws Exception {
         String[] gotData = null;
         List<Message> executedPages;
 

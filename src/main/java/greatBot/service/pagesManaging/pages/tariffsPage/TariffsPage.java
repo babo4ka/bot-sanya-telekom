@@ -1,5 +1,6 @@
 package greatBot.service.pagesManaging.pages.tariffsPage;
 
+import greatBot.service.botUtils.UserInfoSaver;
 import greatBot.service.pagesManaging.interfaces.Page;
 import greatBot.service.pagesManaging.pagesUtils.InlineKeyboardConstructor;
 import greatBot.service.pagesManaging.pagesUtils.Message;
@@ -25,18 +26,23 @@ public class TariffsPage implements Page {
         this.groupNum = pageNum;
     }
 
-    private TariffsReader reader = TariffsReader.getInstance();
+    private final TariffsReader reader = TariffsReader.getInstance();
 
-    private MessageCreator creator = new MessageCreator();
-    private InlineKeyboardConstructor constructor = new InlineKeyboardConstructor();
+    private final MessageCreator creator = new MessageCreator();
+    private final InlineKeyboardConstructor constructor = new InlineKeyboardConstructor();
+    private final UserInfoSaver saver = new UserInfoSaver();
+
+
     @Override
-    public List<Message> execute(Update update) throws IOException {
+    public List<Message> execute(Update update) throws Exception {
         long chatId = update.getCallbackQuery().getMessage().getChatId();
 
         List<Tariff> tariffs = reader.getTariffsByGroup(groupNum);
         List<Message> messages = new ArrayList<>();
 
         constructor.reset();
+
+        saver.updateInfo(chatId, groupNum+1);
 
         tariffs.forEach(tariff -> {
             constructor.addButton("Получить консультацию",

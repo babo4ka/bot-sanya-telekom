@@ -25,7 +25,7 @@ public class PageManager {
 
     public PageManager() throws IOException{}
 
-    public List<Message> execute(Update update, String pageName) throws IOException {
+    public List<Message> execute(Update update, String pageName) throws Exception {
         System.out.println("execute " + pageName);
         return pages.get(pageName).execute(update);
     }

@@ -12,7 +12,9 @@ import java.util.*;
 
 public class TariffsReader {
 
-    private final String filePath = File.separator + "root" + File.separator + "tariffs2.1.xlsx";
+//    private final String filePath = File.separator + "root" + File.separator + "bot_info.xlsx";
+    private final String filePath = "./src/main/resources/bot_info.xlsx";
+
 
     private TariffsReader() throws IOException {
         loadTariffs();

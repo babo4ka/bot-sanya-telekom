@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface Page {
-    default List<Message> execute(Update update) throws IOException{
+    default List<Message> execute(Update update) throws Exception {
         return null;
     }
     default List<Message> executeWithArgs(Update update, String[] args) throws IOException{
