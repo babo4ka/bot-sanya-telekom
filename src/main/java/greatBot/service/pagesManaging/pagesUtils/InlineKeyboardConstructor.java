@@ -29,8 +29,8 @@ public class InlineKeyboardConstructor {
             String url
     ){
         this.buttonsRow.add(InlineKeyboardButton.builder()
+                .url(url)
                 .text(text)
-                .webApp( WebAppInfo.builder().url(url).build())
                 .build()
         );
 
@@ -43,7 +43,9 @@ public class InlineKeyboardConstructor {
     ){
         this.buttonsRow.add(InlineKeyboardButton.builder()
                 .text(text)
-                .webApp(WebAppInfo.builder().url(url).build()).build());
+                .webApp(WebAppInfo.builder().url(url).build())
+                .build()
+        );
 
         return this;
     }

@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class PageManager {
 
-    private Map<String, Page> pages = new HashMap<>(){{
+    private final Map<String, Page> pages = new HashMap<>(){{
         put("/start", new StartPage());
         put("/tariffs1", new TariffsPage(TariffsPage.FIRST));
         put("/tariffs2", new TariffsPage(TariffsPage.SECOND));
@@ -31,7 +31,7 @@ public class PageManager {
     }
 
     public List<Message> executeWithArgs(Update update, String pageName, String[] args) throws IOException {
-        System.out.println("execute w/args" + pageName);
+        System.out.println("execute w/args " + pageName);
         return pages.get(pageName).executeWithArgs(update, args);
     }
 }
