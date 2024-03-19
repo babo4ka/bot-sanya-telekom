@@ -5,6 +5,7 @@ import greatBot.service.pagesManaging.pages.consultpage.ConsultPage;
 import greatBot.service.pagesManaging.pages.startPage.StartPage;
 import greatBot.service.pagesManaging.pages.tariffsPage.TariffsMenu;
 import greatBot.service.pagesManaging.pages.tariffsPage.TariffsPage;
+import greatBot.service.pagesManaging.pages.updateTariffsPage.UpdateTariffsPage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ public class PageManager {
         put("/tariffs3", new TariffsPage(TariffsPage.THIRD));
         put("/tariffsMenu", new TariffsMenu());
         put("/consult", new ConsultPage());
+        put("/updateTariffs", new UpdateTariffsPage());
     }};
 
     public PageManager() throws IOException{}

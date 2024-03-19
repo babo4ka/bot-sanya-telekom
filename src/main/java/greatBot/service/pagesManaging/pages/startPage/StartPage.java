@@ -1,5 +1,6 @@
 package greatBot.service.pagesManaging.pages.startPage;
 
+import greatBot.service.botUtils.ConfigDataDistributor;
 import greatBot.service.botUtils.UserInfoSaver;
 import greatBot.service.pagesManaging.interfaces.Page;
 import greatBot.service.pagesManaging.pagesUtils.InlineKeyboardConstructor;
@@ -24,6 +25,7 @@ public class StartPage implements Page {
 
     private final MessageCreator creator = new MessageCreator();
     private final InlineKeyboardConstructor constructor = new InlineKeyboardConstructor();
+    private final ConfigDataDistributor distributor = ConfigDataDistributor.getInstance();
     private final UserInfoSaver saver = new UserInfoSaver();
 
     @Override
@@ -39,6 +41,10 @@ public class StartPage implements Page {
         saver.createUser(chatId, userName);
 
         constructor.reset();
+
+        if(chatId == distributor.getSubOwnerId() || chatId == distributor.getOnwerId()){
+            constructor.addButton("обновить тарифы", "/updateTariffs").nextRow();
+        }
 
         messages.add(creator.createTextMessage(
                 constructor.addButton("ознакомиться с тарифами", "/tariffsMenu").nextRow().build(),

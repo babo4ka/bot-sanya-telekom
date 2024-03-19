@@ -12,8 +12,8 @@ import java.util.*;
 
 public class TariffsReader {
 
-//    private final String filePath = File.separator + "root" + File.separator + "bot_info.xlsx";
-    private final String filePath = "./src/main/resources/bot_info.xlsx";
+    private final String filePath = File.separator + "root" + File.separator + "bot_info.xlsx";
+//    private final String filePath = "./src/main/resources/bot_info.xlsx";
 
 
     private TariffsReader() throws IOException {
@@ -40,7 +40,9 @@ public class TariffsReader {
     private Map<Integer, List<Integer>> numsInGroup = new HashMap<>();
 
 
-    private void loadTariffs() throws IOException {
+    public void loadTariffs() throws IOException {
+        allTariffs = new HashMap<>();
+        numsInGroup = new HashMap<>();
         FileInputStream inputStream = new FileInputStream(filePath);
 
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
