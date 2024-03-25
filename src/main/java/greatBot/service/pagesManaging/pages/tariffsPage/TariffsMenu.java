@@ -62,14 +62,14 @@ public class TariffsMenu implements Page {
 
 
 
-        replyKeyboardConstructor.
-                addWebAppButton("ПОСМОТРЕТЬ ТАРИФЫ", "https://genuine-haupia-09d816.netlify.app").nextRow();
-
-        messages.add(creator.createTextMessage(
-                replyKeyboardConstructor.build(),
-                update.getCallbackQuery().getMessage().getChatId(),
-                secondaryText, true
-        ));
+//        replyKeyboardConstructor.
+//                addWebAppButton("ПОСМОТРЕТЬ ТАРИФЫ", "https://genuine-haupia-09d816.netlify.app").nextRow();
+//
+//        messages.add(creator.createTextMessage(
+//                replyKeyboardConstructor.build(),
+//                update.getCallbackQuery().getMessage().getChatId(),
+//                secondaryText, true
+//        ));
 
 
         return messages;
